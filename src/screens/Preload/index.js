@@ -21,6 +21,8 @@ export default function PreLoad() {
             }
         }
 
+        checkToken();
+
     }, []);
 
     return (

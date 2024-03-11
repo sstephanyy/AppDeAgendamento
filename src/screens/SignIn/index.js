@@ -28,7 +28,7 @@ export default function SignIn(){
             </InputArea>
 
             <SignMessageBtn>
-                <SignMessageText>Ainda não possui uma conta??</SignMessageText>
+                <SignMessageText>Ainda não possui uma conta?</SignMessageText>
                 <SignMessageTextBold>Cadastre-se</SignMessageTextBold>
             </SignMessageBtn>
 
