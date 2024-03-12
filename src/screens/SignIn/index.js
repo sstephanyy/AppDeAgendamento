@@ -11,8 +11,11 @@ import {
 
 } from './style';
 
-import ComputerLogo from '../../../assets/pointing-to-pc.svg';
+import SignInput from "../../components/SignInput";
 
+import ComputerLogo from '../../../assets/pointing-to-pc.svg';
+import EmailIcon from '../../../assets/email.svg';
+import LockIcon from '../../../assets/lock.svg';
 
 export default function SignIn(){
     return(
@@ -20,6 +23,15 @@ export default function SignIn(){
             <ComputerLogo width="100%" height="200" fill="white"/>
 
             <InputArea>
+
+                <SignInput 
+                    IconSvg={EmailIcon}
+                    placeholder="Digite seu e-mail"
+                />
+                <SignInput 
+                    IconSvg={LockIcon}
+                    placeholder="Digite a sua senha"
+                />
 
                 <CustomButton>
                     <CustomButtonText>LOGIN</CustomButtonText>
