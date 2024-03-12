@@ -11,6 +11,7 @@ export const Container = styled.SafeAreaView`
 
 export const InputArea = styled.View`
     padding: 40px;
+    width: 100%;
 `;
 
 export const CustomButton = styled.TouchableOpacity`
