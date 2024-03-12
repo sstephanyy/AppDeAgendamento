@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text } from 'react-native';
 import { 
     Container,
@@ -18,6 +18,10 @@ import EmailIcon from '../../../assets/email.svg';
 import LockIcon from '../../../assets/lock.svg';
 
 export default function SignIn(){
+
+    const [emailValue, setEmailValue] = useState('');
+    const [passwordValue, setPasswordValue] = useState('');
+
     return(
         <Container> 
             <ComputerLogo width="100%" height="200" fill="white"/>
@@ -27,10 +31,14 @@ export default function SignIn(){
                 <SignInput 
                     IconSvg={EmailIcon}
                     placeholder="Digite seu e-mail"
+                    value={emailValue}
+                    onChangeText={text=>setEmailValue(text)}
                 />
                 <SignInput 
                     IconSvg={LockIcon}
                     placeholder="Digite a sua senha"
+                    value={passwordValue}
+                    onChangeText={text=>setPasswordValue(text)}
                 />
 
                 <CustomButton>

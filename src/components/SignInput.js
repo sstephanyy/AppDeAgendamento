@@ -20,11 +20,16 @@ const Input = styled.TextInput`
 `;
 
 
-export default function SignInput({IconSvg, placeholder}){
+export default function SignInput({IconSvg, placeholder, value, onChangeText}){
     return (
         <InputArea>
             <IconSvg width="24" height="24" fill="#268596" />
-            <Input placeholder={placeholder}/>
+            <Input 
+                placeholder={placeholder}
+                placeholderTextColor="#268596"
+                value={value}
+                onChangeText={onChangeText}
+            />
         </InputArea>
     );
 }
