@@ -39,6 +39,7 @@ export default function SignIn(){
                     placeholder="Digite a sua senha"
                     value={passwordValue}
                     onChangeText={text=>setPasswordValue(text)}
+                    password={true}
                 />
 
                 <CustomButton>
