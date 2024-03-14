@@ -17,6 +17,7 @@ import ComputerLogo from '../../../assets/pointing-to-pc.svg';
 import EmailIcon from '../../../assets/email.svg';
 import LockIcon from '../../../assets/lock.svg';
 import PersonIcon from '../../../assets/person.svg';
+import { signUp } from "../../API";
 
 export default function SignUp(){
     const [emailValue, setEmailValue] = useState('');
@@ -31,6 +32,20 @@ export default function SignUp(){
             routes: [{name: 'SignIn'}]
         });
     }
+
+    const handleSignUp = async () => {
+        // Call signUp function with input field values
+        const signUpResult = await signUp(emailValue, passwordValue);
+        if (signUpResult.success) {
+            // Sign-up successful
+            console.log('User signed up:', signUpResult.user);
+        } else {
+            // Sign-up failed
+            console.error('Error signing up:', signUpResult.error);
+        }
+    }
+
+
 
     return(
         <Container> 
@@ -59,7 +74,7 @@ export default function SignUp(){
                 />
 
                 <CustomButton>
-                    <CustomButtonText>CADASTRAR</CustomButtonText>
+                    <CustomButtonText onPress={handleSignUp} >CADASTRAR</CustomButtonText>
                 </CustomButton>
 
             </InputArea>
