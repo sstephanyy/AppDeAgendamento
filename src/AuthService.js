@@ -15,3 +15,13 @@ export const signUp = async (name, email, password) => {
     }
 }
 
+export const signIn = async (email, password) => {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        console.log("Usuário logado", auth.currentUser);
+        return { success: true, user: userCredential.user }
+    } catch (error) {
+        console.log(error);
+        return { success: false, error };
+    }
+}
