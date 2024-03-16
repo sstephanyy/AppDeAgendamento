@@ -17,6 +17,8 @@ import ComputerLogo from '../../../assets/pointing-to-pc.svg';
 import EmailIcon from '../../../assets/email.svg';
 import LockIcon from '../../../assets/lock.svg';
 
+import { signIn } from "../../AuthService";
+
 export default function SignIn(){
 
     const [emailValue, setEmailValue] = useState('');
@@ -29,6 +31,17 @@ export default function SignIn(){
         navigation.reset({
             routes: [{name: 'SignUp'}]
         });
+    }
+
+    const handleSignIn = async () => {
+
+        const signUpResult = await signIn(emailValue, passwordValue);
+
+        if(signUpResult.success){
+            console.log("User Logado", signUpResult.user);
+        }else{
+            console.log("User NÃO logado", signUpResult.error);
+        }
     }
 
     return(
@@ -52,7 +65,7 @@ export default function SignIn(){
                 />
 
                 <CustomButton>
-                    <CustomButtonText>LOGIN</CustomButtonText>
+                    <CustomButtonText onPress={handleSignIn}>LOGIN</CustomButtonText>
                 </CustomButton>
 
             </InputArea>

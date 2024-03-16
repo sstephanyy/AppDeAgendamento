@@ -1,14 +1,14 @@
 import { FIREBASE_AUTH } from "../FirebaseConfig";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 const auth = FIREBASE_AUTH;
 
-export const signUp = async (email, password) => {
+export const signUp = async (name, email, password) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        console.log(userCredential);
+        await updateProfile(auth.currentUser, {displayName: name});
+        console.log("User Profile: ", auth.currentUser);
         return { success: true, user: userCredential.user };
-
     } catch (error) {
         console.log(error);
         return { success: false, error };
@@ -18,7 +18,8 @@ export const signUp = async (email, password) => {
 export const signIn = async (email, password) => {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        return { success: true, user: userCredential.user };
+        console.log("Usuário logado", auth.currentUser);
+        return { success: true, user: userCredential.user }
     } catch (error) {
         console.log(error);
         return { success: false, error };

@@ -17,7 +17,7 @@ import ComputerLogo from '../../../assets/pointing-to-pc.svg';
 import EmailIcon from '../../../assets/email.svg';
 import LockIcon from '../../../assets/lock.svg';
 import PersonIcon from '../../../assets/person.svg';
-import { signUp } from "../../API";
+import { signUp } from "../../AuthService";
 
 export default function SignUp(){
     const [emailValue, setEmailValue] = useState('');
@@ -34,14 +34,19 @@ export default function SignUp(){
     }
 
     const handleSignUp = async () => {
-        // Call signUp function with input field values
-        const signUpResult = await signUp(emailValue, passwordValue);
-        if (signUpResult.success) {
-            // Sign-up successful
-            console.log('User signed up:', signUpResult.user);
-        } else {
-            // Sign-up failed
-            console.error('Error signing up:', signUpResult.error);
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailValue)) {
+            console.error('Invalid email address');
+            return;
+        }
+
+        const signUpResult = await signUp(nameValue, emailValue, passwordValue);
+
+        if(signUpResult.success){
+            console.log("User Criado", signUpResult.user);
+        }else{
+            console.log("User NÃO criado com sucesso", signUpResult.error);
         }
     }
 
