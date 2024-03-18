@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigation } from '@react-navigation/native';
+import { Alert } from "react-native";
 import { 
     Container,
     InputArea,
@@ -23,6 +24,8 @@ export default function SignUp(){
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     const [nameValue, setNameValue] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const navigation = useNavigation();
 
@@ -34,24 +37,40 @@ export default function SignUp(){
     }
 
     const handleSignUp = async () => {
-        // Validate email format
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(emailValue)) {
-            console.error('Invalid email address');
-            return;
+        setIsLoading(true);
+
+        if(!nameValue || !emailValue || !passwordValue){
+            Alert.alert('Por favor, preencha todos os campos.');
+            setIsLoading(false);
         }
-
+    
         const signUpResult = await signUp(nameValue, emailValue, passwordValue);
-
+    
+        setIsLoading(false); 
+    
         if(signUpResult.success){
             console.log("User Criado", signUpResult.user);
-        }else{
+            setEmailValue('');
+            setPasswordValue('');
+            setNameValue('');
+        } else {
             console.log("User NÃO criado com sucesso", signUpResult.error);
+            switch (signUpResult.errorCode){
+                case 'auth/weak-password':
+                    Alert.alert('Senha fraca. A senha deve ter pelo menos 6 caracteres');
+                    break;
+                case 'auth/invalid-email-verified':
+                    Alert.alert('Email inválido. Tente novamente');
+                    break;
+                case 'auth/email-already-in-use':
+                    Alert.alert('Este email já está em uso. Por favor, utilize outro email');
+                    break;
+                default: 
+                    Alert.alert('Erro ao cadastrar usuário. Por favor, tente novamente.');
+           }
         }
     }
-
-
-
+    
     return(
         <Container> 
             <ComputerLogo width="100%" height="200" fill="white"/>
@@ -78,11 +97,12 @@ export default function SignUp(){
                     password={true}
                 />
 
-                <CustomButton>
-                    <CustomButtonText onPress={handleSignUp} >CADASTRAR</CustomButtonText>
-                </CustomButton>
+            <CustomButton onPress={handleSignUp} disabled={isLoading}>
+                <CustomButtonText>{isLoading ? 'Cadastrando...' : 'CADASTRAR'}</CustomButtonText>
+            </CustomButton>
 
             </InputArea>
+
 
             <SignMessageBtn onPress={handleMessageBtnClick}>
                 <SignMessageText>Já possui uma conta?</SignMessageText>
