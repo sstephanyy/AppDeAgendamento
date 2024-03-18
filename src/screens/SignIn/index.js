@@ -23,6 +23,7 @@ export default function SignIn(){
 
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigation = useNavigation();
 
@@ -35,7 +36,11 @@ export default function SignIn(){
 
     const handleSignIn = async () => {
 
+        setIsLoading(true);
+
         const signUpResult = await signIn(emailValue, passwordValue);
+
+        setIsLoading(false);
 
         if(signUpResult.success){
             console.log("User Logado", signUpResult.user);
@@ -64,8 +69,8 @@ export default function SignIn(){
                     password={true}
                 />
 
-                <CustomButton>
-                    <CustomButtonText onPress={handleSignIn}>LOGIN</CustomButtonText>
+                <CustomButton onPress={handleSignIn} disabled={isLoading}>
+                    <CustomButtonText>{ isLoading ? 'Fazendo Login...' : 'LOGIN'}</CustomButtonText>
                 </CustomButton>
 
             </InputArea>
