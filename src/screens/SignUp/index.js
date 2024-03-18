@@ -23,6 +23,7 @@ export default function SignUp(){
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     const [nameValue, setNameValue] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigation = useNavigation();
 
@@ -34,21 +35,30 @@ export default function SignUp(){
     }
 
     const handleSignUp = async () => {
+        setIsLoading(true); // Set loading state to true to indicate signup process is in progress
+    
         // Validate email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(emailValue)) {
             console.error('Invalid email address');
+            setIsLoading(false); 
             return;
         }
-
+    
         const signUpResult = await signUp(nameValue, emailValue, passwordValue);
-
+    
+        setIsLoading(false); 
+    
         if(signUpResult.success){
             console.log("User Criado", signUpResult.user);
-        }else{
+            setEmailValue('');
+            setPasswordValue('');
+            setNameValue('');
+        } else {
             console.log("User NÃO criado com sucesso", signUpResult.error);
         }
     }
+    
 
 
 
@@ -78,9 +88,9 @@ export default function SignUp(){
                     password={true}
                 />
 
-                <CustomButton>
-                    <CustomButtonText onPress={handleSignUp} >CADASTRAR</CustomButtonText>
-                </CustomButton>
+            <CustomButton onPress={handleSignUp} disabled={isLoading}>
+                <CustomButtonText>{isLoading ? 'Cadastrando...' : 'CADASTRAR'}</CustomButtonText>
+            </CustomButton>
 
             </InputArea>
 
